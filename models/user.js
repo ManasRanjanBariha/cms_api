@@ -1,27 +1,50 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Import the Sequelize instance
+// const { DataTypes } = require('sequelize');
+// const sequelize = require('../config/database'); 
 
-const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  phone_number: {
-    type: DataTypes.STRING
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
-});
+// const User = sequelize.define('User', {
+//   user_code: {
+//     type: DataTypes.STRING(20),
+//     allowNull: false,
+//     primaryKey: true,
+//   },
+//   name: {
+//     type: DataTypes.STRING(30),
+//     allowNull: false,
+//   },
+//   phone: {
+//     type: DataTypes.BIGINT,
+//     allowNull: true,
+//     unique: true,
+//   },
+//   email: {
+//     type: DataTypes.STRING(40),
+//     allowNull: true,
+//     unique: true,
+//   },
+//   address: {
+//     type: DataTypes.TEXT,
+//     allowNull: true,
+//   },
+//   created_by: {
+//     type: DataTypes.STRING(30),
+//     allowNull: false,
+//   },
+//   created_at: {
+//     type: DataTypes.DATE,
+//     defaultValue: DataTypes.NOW,
+//   },
+//   updated_by: {
+//     type: DataTypes.STRING(30),
+//     allowNull: true,
+//   },
+//   updated_at: {
+//     type: DataTypes.DATE,
+//     defaultValue: DataTypes.NOW,
+//     onUpdate: DataTypes.NOW,
+//   },
+// }, {
+//   tableName: 'user_table',
+//   timestamps: false,
+// });
 
-module.exports = User;
+// module.exports = User;

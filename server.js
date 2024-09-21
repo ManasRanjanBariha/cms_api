@@ -1,9 +1,13 @@
 const express = require('express');
-
+const cors= require('cors');
 const dotenv = require('dotenv').config()
 const sequelize = require('./config/database');
-const User = require('./models/user');
+
+const authRoutes = require('./routes/v1/authRoutes')
+const applicantRoutes = require('./routes/v1/applicantRoutes')
+
 const app = express()
+app.use(cors());
 app.use(express.json())
 
 sequelize.sync()
@@ -14,12 +18,8 @@ sequelize.sync()
     console.error('Error syncing database:', error);
   })
 
-app.use("/users", require('./routes/userRoutes'));
-
-
-
-// app.use()
-
+app.use("/api/v1/", authRoutes);
+app.use("/api/v1/applicant", applicantRoutes);
 
 const port = process.env.PORT || 5000;
 
