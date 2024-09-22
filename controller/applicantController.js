@@ -1,3 +1,4 @@
+const { log } = require('console');
 const { Applicant } = require('../models');
 const formatResponse = require('../utils/formatResponse');
 const path = require('path');
@@ -6,12 +7,14 @@ const apply = async (req, res) => {
     try {
         const { job_code, applicant_code, ...applicantData } = req.body;
 
-       
         const file = req.file;
+        console.log(applicant_code);
+        
         if (file) {
-       
+            
             applicantData.resume_path = path.join('uploads', file.filename); 
         }
+        
 
         const applicant = await Applicant.findOne({ where: { applicant_code } });
 
