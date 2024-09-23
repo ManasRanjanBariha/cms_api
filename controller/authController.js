@@ -127,31 +127,7 @@ const login = async (req, res) => {
 
 
 
-const logout = async (req, res) => {
-    const token = req.headers['authorization']?.split(' ')[1];
 
-    if (!token) return res.status(400).json({
-        statusCode: 400,
-        success: false,
-        message: 'No token provided'
-    });
-
-    try {
-        await InvalidateToken.create({ token });
-        res.status(200).json({
-            statusCode: 200,
-            success: true,
-            message: 'Logged out successfully'
-        });
-    } catch (error) {
-        res.status(500).json({
-            statusCode: 500,
-            success: false,
-            message: 'Server error',
-            error: error.message
-        });
-    }
-};
 
 // const getProfile = async (req, res) => {
 //     try {
@@ -277,4 +253,4 @@ const logout = async (req, res) => {
 
 
 
-module.exports = { login, register, logout }
+module.exports = { login, register }

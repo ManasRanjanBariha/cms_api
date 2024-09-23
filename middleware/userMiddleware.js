@@ -1,25 +1,31 @@
 const jwt = require('jsonwebtoken');
-const InvalidateToken = require('../models/invalidateToken');
+const formatResponse = require('../utils/formatResponse');
+
+let invalidatedTokens = [];
 
 const authenticateToken = async (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1]; 
+    const token = req.headers['authorization']?.split(' ')[1];
 
-  if (!token) return res.sendStatus(401);
+    if (!token) {
+        return res.status(401).json(formatResponse(401, false, 'Unauthorized: No token provided.', null));
+    }
 
-  try {
+    if (invalidatedTokens.includes(token)) {
+        return res.status(401).json(formatResponse(401, false, 'Unauthorized: Token has been invalidated.', null));
+    }
 
-      const invalidateToken = await InvalidateToken.findOne({ where: { token } });
-      if (invalidateToken) return res.sendStatus(401); 
+    try {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                return res.status(403).json(formatResponse(403, false, 'Forbidden: Invalid token.', null));
+            }
+            req.user = user;
+            next();
+        });
+    } catch (error) {
+        res.status(500).json(formatResponse(500, false, 'Server error: ' + error.message, null));
+    }
+};
 
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-          if (err) return res.sendStatus(403);
-          req.user = user;
-          next();
-      });
-  } catch (error) {
-      res.status(500).json({ message: 'Server error'+error });
-  }
-  };
-  
 
 module.exports = authenticateToken;

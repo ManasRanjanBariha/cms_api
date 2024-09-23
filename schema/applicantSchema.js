@@ -14,7 +14,6 @@ const applicantSchema = (sequelize) => {
                 model: 'Authentication', 
                 key: 'user_code',
             },
-            unique: true,
         },
         job_code: {
           type: DataTypes.INTEGER(15),
