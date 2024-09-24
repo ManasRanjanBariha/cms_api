@@ -12,8 +12,13 @@ const { Authentication, Applicant } = require('../models');
 
 const register = async (req, res) => {
     try {
-        const { username, phone, email, password } = req.body;
+        const { username, phone, email, password,confirmPassword } = req.body;
         const userCode = await generateUserCode();
+        if(password !== confirmPassword)
+        {
+            res.status(400).json(formatResponse(400,false,"Password and confirm passwod didn't match"));
+        }
+        
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const existingUser = await Applicant.findOne({
@@ -57,7 +62,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const { username, password } = req.body;
 
-    if (!username || !password) {
+    if (!username || !password ) {
         return res.status(400).json({
             statusCode: 400,
             success: false,
